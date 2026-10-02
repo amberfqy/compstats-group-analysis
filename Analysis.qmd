@@ -8,6 +8,27 @@ https://github.com/amberfqy/compstats-group-analysis.git
 ### Question: Does the illegal use of AI result in a larger fine for your case?
 
 (0) Data Wrangling
+```{r}
+library(tidyverse)
+library(dplyr)
+df <- read_csv("Charlotin-hallucination_cases.csv")
+df <- df |>
+  mutate(
+    Monetary_Penalty_num = parse_number(`Monetary Penalty`)
+         ) |> filter(!is.na(Monetary_Penalty_num))
+
+df <- df |>
+  mutate(
+    Binary_AI_Tool = case_when(
+      str_to_lower(`AI Tool`) == "unidentified" ~ 0,
+      !is.na(`AI Tool`) ~ 1,
+      TRUE ~ NA_real_
+    )
+  ) |> filter(!is.na(Binary_AI_Tool))
+
+head(df)
+
+```
 
 (a) Three Visualization
 ```{r}
