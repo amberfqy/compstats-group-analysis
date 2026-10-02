@@ -30,23 +30,56 @@ head(df)
 
 ```
 
-(a) Three Visualization
-```{r}
-
-```
-
-(b) Statistical Model
+(a) Statistical Model
 ```{r}
 m_logistic <- glm(Binary_AI_Tool ~ Monetary_Penalty_num, data = df, family = binomial)
 summary(m_logistic)
 ```
 
+(b) Three Visualization
+```{r}
+ggplot(data = df, aes(x = Monetary_Penalty_num)) +
+  geom_histogram(bins = 30) +
+  scale_x_log10() +
+  labs(x = "Monetary penalty (log scale)", y = "Number of cases")
+```
+
+```{r}
+ggplot(data = df, aes(x = factor(Binary_AI_Tool), y = Monetary_Penalty_num)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, alpha = 0.3) +
+  scale_y_log10() +
+  labs(x = "AI tool identified (1) vs. unidentified (0)",
+       y = "Monetary penalty (log scale)")
+```
+
+```{r}
+df <- df |>
+  mutate(prob = predict(m_logistic, type = "response"))
+
+ggplot(data = df, aes(x = Monetary_Penalty_num)) +
+  geom_jitter(aes(y = Binary_AI_Tool), height = 0.05, alpha = 0.3) +
+  geom_line(aes(y = prob), color = "blue") +
+  scale_x_log10() +
+  labs(x = "Monetary penalty (log scale)",
+       y = "Predicted probability of AI tool identified")
+```
+
+
 (c) Why the model is appropriate
 
+Our response variable, `Binary_AI_Tool`, only takes the values 0 and 1, so linear regression is not appropriate because it can give predicted values not within 0-1. Logistic regression models the log-odds of the response as a linear function of the predictor, so the predicted probabilities always stay between 0 and 1. This lets us check whether a larger monetary penalty is associated with a higher probability that the AI tool was identified.
+
 (d) Interpretation of the model results
+
+```{r}
+exp(10000 * coef(m_logistic)["Monetary_Penalty_num"])
+```
+
+The p-value for the monetary penalty is `r round(summary(m_logistic)$coefficients[2, 4], 3)`, which is larger than 0.05. Each \$10,000 increase in the penalty multiplies the odds that the AI tool was identified by about 1.115, but this effect is not statistically significant. So we do not have evidence that a larger penalty is related to the AI tool being identified. This matches the boxplot, where both groups have similar penalties.
 
 (e) Limitations
 
 This analysis on legal case and AI hallucination still have several limitations:
 1) We try to use monetary penalty as a predictor for whether AI tool is used in the case or not. However, by common sense, this is not the best predictor for AI tool, which is confirmed again by our model. A better predictor would be a qualitative analysis of the textual evidence presented in the court and interpret through whether AI is used or not. However, due to the data set limitation, the quantification of such a predictor is hard to achieve.
-2) - Fred(?)
+2) We only kept cases that had a recorded monetary penalty, which leaves 374 cases out of the full database. Most cases ended with a warning or another sanction instead of a fine, so our results may not apply to those cases.
