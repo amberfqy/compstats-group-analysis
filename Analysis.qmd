@@ -32,11 +32,13 @@ head(df)
 
 (a) Three Visualization
 ```{r}
-hallucination <- read_csv("Charlotin-hallucination_cases.csv")
 
 ```
 
 (b) Statistical Model
+```{r}
+
+```
 
 (c) Why the model is appropriate
 
