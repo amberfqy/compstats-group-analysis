@@ -5,9 +5,9 @@ name: "Amber Feng, Fred Wang"
 https://github.com/amberfqy/compstats-group-analysis.git
 ---
 
-### Question: Does using AI illegally result in a larger fine for your case?
+### Question: Does the illegal use of AI result in a larger fine for your case?
 
-(0)
+(0) Data Wrangling
 
 (a) Three Visualization
 ```{r}
