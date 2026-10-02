@@ -1,11 +1,11 @@
 ---
-title: "Analysis"
+title: "Legal Analysis"
 format: html
 name: "Amber Feng, Fred Wang"
 https://github.com/amberfqy/compstats-group-analysis.git
 ---
 
-### Question: Does the illegal use of AI result in a larger fine for your case?
+### Question: Does the a large monetary penalty of a legal case indicate a use of AI tool?
 
 (0) Data Wrangling
 ```{r}
@@ -37,7 +37,8 @@ head(df)
 
 (b) Statistical Model
 ```{r}
-
+m_logistic <- glm(Binary_AI_Tool ~ Monetary_Penalty_num, data = df, family = binomial)
+summary(m_logistic)
 ```
 
 (c) Why the model is appropriate
@@ -45,3 +46,7 @@ head(df)
 (d) Interpretation of the model results
 
 (e) Limitations
+
+This analysis on legal case and AI hallucination still have several limitations:
+1) We try to use monetary penalty as a predictor for whether AI tool is used in the case or not. However, by common sense, this is not the best predictor for AI tool, which is confirmed again by our model. A better predictor would be a qualitative analysis of the textual evidence presented in the court and interpret through whether AI is used or not. However, due to the data set limitation, the quantification of such a predictor is hard to achieve.
+2) - Fred(?)
