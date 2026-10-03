@@ -2,8 +2,8 @@
 title: "Legal Analysis"
 format: html
 name: "Amber Feng, Fred Wang"
-https://github.com/amberfqy/compstats-group-analysis.git
 ---
+https://github.com/amberfqy/compstats-group-analysis.git
 
 ### Question: Does the a large monetary penalty of a legal case indicate a use of AI tool?
 
